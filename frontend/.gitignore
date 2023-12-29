@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 
-cert.cert
+cert.crt
 cert.pem
 key.key
 key.pem
