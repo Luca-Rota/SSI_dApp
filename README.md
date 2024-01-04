@@ -1,6 +1,18 @@
 # SSI_dApp
 
-Descrizione breve del tuo progetto.
+## Getting Started
+
+### Installing mkcert
+
+#### Linux
+```bash
+sudo apt-get install libnss3-tools
+
+#### MacOS
+```bash
+brew install mkcert
+
+
 
 ## Licenza
 
