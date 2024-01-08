@@ -3,7 +3,7 @@
 
 
 <p align="center">
-This is a decentralized application useful for managing users' digital identity following the Self Sovereign Identity (SSI) method. Specifically, it is a stand-alone, so it works independently, but it is designed to be integrated with the Data Cellar project. 
+This is a decentralized application useful for managing users' digital identity following the Self Sovereign Identity (SSI) method. Specifically, it is a stand-alone, so it can work independently, but it is designed to be integrated with the Data Cellar project. 
 </p>
 
 ## Getting Started
