@@ -1,6 +1,4 @@
-
 # SSI_dApp
-
 
 <p align="center">
 This is a decentralized application useful for managing users' digital identity following the Self Sovereign Identity (SSI) method. Specifically, it is a stand-alone, so it can work independently, but it is designed to be integrated with the Data Cellar project. 
@@ -59,6 +57,24 @@ openssl rsa -in key.pem -out key.key
 cd ..
 ```
 
+### Installing Frontend's dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+### Installing Backend's dependencies
+
+```bash
+cd backend
+npm install
+```
+
+## Running
+
+Open two terminals: one for the frontend and one for the backend.
+
 ### Starting the Frontend
 
 ```bash
@@ -72,6 +88,7 @@ npm start
 cd backend
 node server.js
 ```
+
 
 ## License
 
