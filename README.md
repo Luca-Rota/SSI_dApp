@@ -57,16 +57,12 @@ openssl rsa -in key.pem -out key.key
 cd ..
 ```
 
-### Installing Frontend's dependencies
+### Installing dependencies
 
 ```bash
 cd frontend
 npm install
-```
-
-### Installing Backend's dependencies
-
-```bash
+cd ..
 cd backend
 npm install
 ```
