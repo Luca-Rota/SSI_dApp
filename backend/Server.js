@@ -32,9 +32,9 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 app.post('/api/auth', function (req, res, next) {
-  const { signature, publicAddress, nonce, country, region } = req.body;
+  const { signature, publicAddress, nonce, credentials } = req.body;
 
-  if (!signature || !publicAddress || !nonce || !country || !region) {
+  if (!signature || !publicAddress || !nonce || !credentials) {
     return res.status(400).send({ error: 'Request should have signature, publicAddress, nonce, country and region.' });
   }
 
@@ -50,8 +50,12 @@ app.post('/api/auth', function (req, res, next) {
       {
         payload: {
           publicAddress: publicAddress,
-          country: country,
-          region: region
+          name: credentials.name,
+          surname: credentials.surname, 
+          email: credentials.email,
+          profession: credentials.profession,
+          country: credentials.country,
+          region: credentials.region
         },
       },
       jwtConfig.secret,

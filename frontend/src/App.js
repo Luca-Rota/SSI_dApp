@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Login from "./components/Login.js"
+import Profile from "./components/Profile.js"
 import Home from "./components/Home.js"
 import Signup from "./components/Signup.js"
 import Signin from "./components/Signin.js"
@@ -28,36 +29,29 @@ function App2() {
 
   const [showExit, setShowExit] = useState(false);
   const [vc, setVc] = useState("");
+  const [authState, setAuthState] = useState();
   
   const { wallet, error, errorMessage, clearError, setOpCompleted } = useMetaMask();
-
-  /* useEffect(() => {
-     const timeId = setTimeout(() => {
-       clearError();
-     }, 10000)
- 
-     return () => {
-       clearTimeout(timeId)
-     }
-   }, [showErr, errorMessage]);
- */
-
-  const [authState, setAuthState] = useState();
 
   useEffect(() => {
     const cookies = document.cookie.split(';');
     const authTokenCookie = cookies.find(cookie => cookie.trim().startsWith('authToken='));
     if (authTokenCookie) {
       const authToken = authTokenCookie.split('=')[1];
-      const { payload: { publicAddress, country, region } } = jwtDecode(authToken);
-      setAuthState({ publicAddress, country, region });
-      console.log(authState)
+      const { payload: { publicAddress, name, surname, email, profession, country, region } } = jwtDecode(authToken);
+      setAuthState({ publicAddress, name, surname, email, profession, country, region });
     }
   }, []);
 
-  const handleLoggedIn = (auth, publicAddress, country, region) => {
+  const handleLoggedIn = (auth, publicAddress, credentials) => {
     document.cookie = `authToken=${JSON.stringify(auth)}; path=/; samesite=None; secure`;
-    setAuthState({ publicAddress, country, region });
+    const name = credentials.name;
+    const surname = credentials.surname;
+    const email = credentials.email;
+    const profession = credentials.profession;
+    const country = credentials.country;
+    const region = credentials.region;
+    setAuthState({ publicAddress, name, surname, email, profession, country, region});
     navigate('/');
   };
 
@@ -99,6 +93,7 @@ function App2() {
           <Login />} />
         <Route path="signin" element={<Signin handleLoggedIn={handleLoggedIn} />} />
         <Route path="signup" element={<Signup handleVcCreation={handleVcCreation} vc={vc} setVc={setVc} />} />
+        <Route path="profile" element={<Profile authState={authState}  handleLoggedOut={handleLoggedOut} />} />
       </Route>
     </Routes>
 

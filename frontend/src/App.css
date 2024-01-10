@@ -70,10 +70,15 @@
   font-size: large !important;
 }
 
-.end-signup {
+.end {
   display: flex;
   justify-content: flex-end;
   flex-direction: row;
+}
+
+.delete{
+  height: fit-content;
+  width: fit-content;
 }
 
 .p-signup {
@@ -118,6 +123,22 @@
   vertical-align: middle;
   padding-right: 0px !important;
   padding-left: 0px !important;
+}
+
+.h4-profile{
+  width: fit-content !important;
+  margin-bottom: 0px !important;
+  margin-top: 3px !important;
+}
+
+.h5-profile{
+  border: 2px solid #00C992 ;
+  background-color: #00C992;
+  border-radius: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .select {
@@ -222,6 +243,17 @@ button {
   margin-top: 5px !important;
 }
 
+.nav-box3{
+  background-color: white !important;
+  border: 1px solid #00CE95 !important;
+  border-radius: 24px !important;
+  height: fit-content !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  color: #00CE95 !important;
+  margin-top: 5px !important;
+}
+
 .nav-exit {
   background-color: #CC0202 !important;
   border: 1px solid #CC0202 !important;
@@ -292,4 +324,9 @@ button {
 
 .file {
   width: fit-content !important;
+}
+
+.profile-img{
+  width: 200px;
+  height: 200px;
 }

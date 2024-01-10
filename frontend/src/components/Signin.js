@@ -67,10 +67,15 @@ function Signin(props) {
               if (checkVcOwnership(verifiedVC.verifiableCredential.credentialSubject.id)) {
                 const jwt = await signJWT();
                 if (jwt) {
+                  const name = verifiedVC.verifiableCredential.credentialSubject.name;
+                  const surname = verifiedVC.verifiableCredential.credentialSubject.surname;
+                  const email = verifiedVC.verifiableCredential.credentialSubject.email;
+                  const profession = verifiedVC.verifiableCredential.credentialSubject.profession;
                   const country = verifiedVC.verifiableCredential.credentialSubject.country;
                   const region = verifiedVC.verifiableCredential.credentialSubject.region;
-                  const auth = await API.handleAuthenticate(jwt.signature, wallet.accounts[0], jwt.nonce, country, region);
-                  props.handleLoggedIn(auth, wallet.accounts[0], country, region);
+                  const credentials = { name, surname, email, profession, country, region }
+                  const auth = await API.handleAuthenticate(jwt.signature, wallet.accounts[0], jwt.nonce, credentials);
+                  props.handleLoggedIn(auth, wallet.accounts[0], credentials);
                 }
               } else {
                 setErrorMessage('The verifiable credential you provided is not associated with your account.');
@@ -112,13 +117,13 @@ function Signin(props) {
           <Row className='mx-2 mt-1'>
             <h2 className='formText'> Sign In </h2>
           </Row>
-          <Row className='ms-3 mb-3'>
+          <Row className='ms-4 mb-3'>
             <h6 className='h6-info'>Sign in as a member using an account in your MetaMask wallet. </h6>
             <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip} >
               <img src={Info} alt="info" className='info' onClick={() => setShowInfoModal(true)} />
             </OverlayTrigger>
           </Row>
-          <Row className='ms-3 mb-4'>
+          <Row className='ms-4 mb-4'>
             <h6 className='h6-info'>Upload your DataCellar's verifiable credential: </h6>
             <input id="file" type="file" onChange={handleFileChange} className='file' />
           </Row>

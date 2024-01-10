@@ -10,6 +10,7 @@ import { formatNetwork, validateEmail, validateName, validateProfession, validat
 import video from '../assets/video.mp4';
 import SignupModal from './SignupModal';
 import VcModal from './VcModal';
+import SignupConfirmModal from './SignupConfirmModal';
 
 function SignUp(props) {
 
@@ -21,6 +22,8 @@ function SignUp(props) {
   const [selectedRegion, setSelectedRegion] = useState('');
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [credentials, setCredentials] = useState('');
 
   const { wallet, setErrorMessage, isConnecting, opCompleted, signupDataCellar, setIsConnecting } = useMetaMask()
 
@@ -49,11 +52,11 @@ function SignUp(props) {
       setErrorMessage('Invalid profession.');
       return;
     }
-    const credentials = { name, surname, email, profession, selectedCountry, selectedRegion };
-    handleSignUp(credentials);
+    setCredentials({ name, surname, email, profession, selectedCountry, selectedRegion });
+    setShowRegister(true);
   }
 
-  const handleSignUp = async (credentials) => {
+  const handleSignUp = async () => {
     setIsConnecting(true);
     try {
       const publicAddress = wallet.accounts[0];
@@ -83,7 +86,8 @@ function SignUp(props) {
 
       {opCompleted && <VcModal vc={props.vc} setVc={props.setVc} downloaded={downloaded} setDownloaded={setDownloaded} />}
       {showInfoModal && <SignupModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} />}
-
+      {showRegister && <SignupConfirmModal showRegister={showRegister} setShowRegister={setShowRegister} handleSignUp={handleSignUp} /> }
+     
       <Modal className=' my-custom-modal static-modal mt-5' size="xl" aria-labelledby="contained-modal-title-vcenter" centered show={true} >
         <Container className="signup ">
           <Row>
@@ -94,7 +98,7 @@ function SignUp(props) {
           <Row className='mx-2 '>
             <h2 className='formText' >Sign Up </h2>
           </Row>
-          <Row className='ms-3 mb-2'>
+          <Row className='ms-4 mb-2'>
             <h6 className='h6-info'>Read more information about the sign up process. </h6>
             <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip} >
               <img src={Info} alt="info" className='info' onClick={() => setShowInfoModal(true)} />

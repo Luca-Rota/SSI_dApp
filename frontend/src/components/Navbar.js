@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function MyNavbar(props) {
 
-  const { wallet, hasProvider } = useMetaMask()
+  const { wallet } = useMetaMask()
 
   const navigate = useNavigate();
 
@@ -34,12 +34,6 @@ function MyNavbar(props) {
     </Tooltip>
   );
 
-  const renderTooltip3 = (props) => (
-    <Tooltip className="ind" id="button-tooltip" {...props}>
-      Your member account.
-    </Tooltip>
-  );
-
   const renderTooltip4 = (props) => (
     <Tooltip className="ind" id="button-tooltip" {...props}>
       Log Out.
@@ -54,19 +48,15 @@ function MyNavbar(props) {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="px-3">
-
-          {(wallet.accounts.length < 1 || props.authState) ? <Nav className="me-auto"> </Nav> :
-            (window.ethereum?.isConnected) ?
-              <Nav className="me-auto">
-                <Button className="nav-btn me-4" onClick={() => navigate('/signup')}> Sign up </Button>
-                <Button className="nav-btn me-4" onClick={() => navigate('/signin')}> Sign in </Button>
-              </Nav> :
-              <Nav className="me-auto">
-                <Button className="nav-box-alert ms-4" > Please, use the MetaMask wallet to sign in </Button>
-              </Nav>}
+          {(wallet.accounts.length < 1 || props.authState || (wallet.accounts.length > 0 && !window.ethereum?.isConnected)) ?
+            <Nav className="me-auto"> </Nav> :
+            <Nav className="me-auto">
+              <Button className="nav-btn me-4" onClick={() => navigate('/signup')}> Sign up </Button>
+              <Button className="nav-btn me-4" onClick={() => navigate('/signin')}> Sign in </Button>
+            </Nav>}
 
           <Nav>
-            {(hasProvider && wallet.accounts.length > 0 && !props.authState) ?
+            {(window.ethereum?.isConnected && wallet.accounts.length > 0 && !props.authState) ?
               <Nav>
                 <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }} overlay={renderTooltip1} >
                   <Button className="nav-box me-4">
@@ -79,18 +69,17 @@ function MyNavbar(props) {
                   </Button>
                 </OverlayTrigger>
               </Nav> :
-              (props.authState) ? <Nav className="box-center">
-                <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }} overlay={renderTooltip3} >
-                  <Button className="nav-box2 me-2">
-                    <img src={User} alt="user" /> <h6 className="h6-info ms-2"> {props.authState.publicAddress} </h6>
+              (props.authState && window.ethereum?.isConnected) ?
+                <Nav className="box-center">
+                  <Button className="nav-box3 me-2" onClick={() => navigate('/profile')}>
+                    <img src={User} alt="user" /> <h6 className="h6-info ms-2"> Visit Your Profile </h6>
                   </Button>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }} overlay={renderTooltip4} >
-                  <Button className="nav-exit me-4 mt-1 " onClick={() => props.setShowExit(true)}>
-                    <img src={Exit} alt="exit" />
-                  </Button>
-                </OverlayTrigger>
-              </Nav> : <Nav />
+                  <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }} overlay={renderTooltip4} >
+                    <Button className="nav-exit me-4 mt-1 " onClick={() => props.setShowExit(true)}>
+                      <img src={Exit} alt="exit" />
+                    </Button>
+                  </OverlayTrigger>
+                </Nav> : <Nav />
             }
           </Nav>
         </Navbar.Collapse>
