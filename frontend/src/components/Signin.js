@@ -61,30 +61,34 @@ function Signin(props) {
       try {
         const vcJwt = await readAndHandleFile();
         if (vcJwt) {
-          if (await isRegistered()) {
-            const verifiedVC = await verifyVc(vcJwt, wallet.chainId);
-            if (verifiedVC) {
-              if (checkVcOwnership(verifiedVC.verifiableCredential.credentialSubject.id)) {
-                const jwt = await signJWT();
-                if (jwt) {
-                  const name = verifiedVC.verifiableCredential.credentialSubject.name;
-                  const surname = verifiedVC.verifiableCredential.credentialSubject.surname;
-                  const email = verifiedVC.verifiableCredential.credentialSubject.email;
-                  const profession = verifiedVC.verifiableCredential.credentialSubject.profession;
-                  const country = verifiedVC.verifiableCredential.credentialSubject.country;
-                  const region = verifiedVC.verifiableCredential.credentialSubject.region;
-                  const credentials = { name, surname, email, profession, country, region }
-                  const auth = await API.handleAuthenticate(jwt.signature, wallet.accounts[0], jwt.nonce, credentials);
-                  props.handleLoggedIn(auth, wallet.accounts[0], credentials);
+          if (chainId === "0x5" || chainId === "0xaa36a7") {
+            if (await isRegistered()) {
+              const verifiedVC = await verifyVc(vcJwt, wallet.chainId);
+              if (verifiedVC) {
+                if (checkVcOwnership(verifiedVC.verifiableCredential.credentialSubject.id)) {
+                  const jwt = await signJWT();
+                  if (jwt) {
+                    const name = verifiedVC.verifiableCredential.credentialSubject.name;
+                    const surname = verifiedVC.verifiableCredential.credentialSubject.surname;
+                    const email = verifiedVC.verifiableCredential.credentialSubject.email;
+                    const profession = verifiedVC.verifiableCredential.credentialSubject.profession;
+                    const country = verifiedVC.verifiableCredential.credentialSubject.country;
+                    const region = verifiedVC.verifiableCredential.credentialSubject.region;
+                    const credentials = { name, surname, email, profession, country, region }
+                    const auth = await API.handleAuthenticate(jwt.signature, wallet.accounts[0], jwt.nonce, credentials);
+                    props.handleLoggedIn(auth, wallet.accounts[0], credentials);
+                  }
+                } else {
+                  setErrorMessage('The verifiable credential you provided is not associated with your account.');
                 }
               } else {
-                setErrorMessage('The verifiable credential you provided is not associated with your account.');
+                setErrorMessage('Verification of your verifiable credential has failed.');
               }
             } else {
-              setErrorMessage('Verification of your verifiable credential has failed.');
+              setErrorMessage('Your selected account is not registered to DataCellar with the blockchain you selected. Maybe you were registered using a different network.')
             }
           } else {
-            setErrorMessage('Your selected account is not registered to DataCellar with the blockchain you selected. Maybe you were registered using a different network.')
+            setErrorMessage("For now, only the Goerli and Sepolia networks can be used. Select another network.")
           }
         } else {
           setErrorMessage('The file provided is not a verifiable credential.');
