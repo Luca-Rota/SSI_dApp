@@ -35,7 +35,7 @@ app.post('/api/auth', function (req, res, next) {
   const { signature, publicAddress, nonce, credentials } = req.body;
 
   if (!signature || !publicAddress || !nonce || !credentials) {
-    return res.status(400).send({ error: 'Request should have signature, publicAddress, nonce, country and region.' });
+    return res.status(400).send({ error: 'Request should have signature, publicAddress and credentials.' });
   }
 
   const msg = `I am signing a one-time nonce: ${nonce}`;
