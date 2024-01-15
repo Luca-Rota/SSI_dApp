@@ -61,6 +61,7 @@ function Signin(props) {
       try {
         const vcJwt = await readAndHandleFile();
         if (vcJwt) {
+          const chainId = wallet.chainId;
           if (chainId === "0x5" || chainId === "0xaa36a7") {
             if (await isRegistered()) {
               const verifiedVC = await verifyVc(vcJwt, wallet.chainId);
