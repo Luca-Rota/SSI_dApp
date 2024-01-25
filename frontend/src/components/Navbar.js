@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function MyNavbar(props) {
 
-  const { wallet } = useMetaMask()
+  const { wallet, setOpCompleted } = useMetaMask()
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ function MyNavbar(props) {
   return (
     <Navbar collapseOnSelect expand="lg" fixed="top" className="nav">
       <Container fluid >
-        <Navbar.Brand type="button" onClick={() => navigate('/')}>
+        <Navbar.Brand type="button" onClick={() => { setOpCompleted(false); navigate('/') }}>
           <img src={Logo} className="logo-nav me-4" alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -51,10 +51,13 @@ function MyNavbar(props) {
           {(wallet.accounts.length < 1 || props.authState || (wallet.accounts.length > 0 && !window.ethereum?.isConnected)) ?
             <Nav className="me-auto"> </Nav> :
             <Nav className="me-auto">
-              <Button className="nav-btn me-4" onClick={() => navigate('/signup')}> Sign up </Button>
-              <Button className="nav-btn me-4" onClick={() => navigate('/signin')}> Sign in </Button>
+              <Button className="nav-btn me-4" onClick={() => { setOpCompleted(false); navigate('/signup') }}>
+                Sign up
+              </Button>
+              <Button className="nav-btn me-4" onClick={() => { setOpCompleted(false); navigate('/signin') }}>
+                Sign in
+              </Button>
             </Nav>}
-
           <Nav>
             {(window.ethereum?.isConnected && wallet.accounts.length > 0 && !props.authState) ?
               <Nav>
@@ -69,7 +72,7 @@ function MyNavbar(props) {
                   </Button>
                 </OverlayTrigger>
               </Nav> :
-              (props.authState && window.ethereum?.isConnected) ?
+              (props.authState && window.ethereum?.isConnected && wallet.accounts.length > 0) ?
                 <Nav className="box-center">
                   <Button className="nav-box3 me-2" onClick={() => navigate('/profile')}>
                     <img src={User} alt="user" /> <h6 className="h6-info ms-2"> Visit Your Profile </h6>

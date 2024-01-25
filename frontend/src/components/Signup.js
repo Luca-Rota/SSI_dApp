@@ -86,8 +86,8 @@ function SignUp(props) {
 
       {opCompleted && <VcModal vc={props.vc} setVc={props.setVc} downloaded={downloaded} setDownloaded={setDownloaded} />}
       {showInfoModal && <SignupModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} />}
-      {showRegister && <SignupConfirmModal showRegister={showRegister} setShowRegister={setShowRegister} handleSignUp={handleSignUp} /> }
-     
+      {showRegister && <SignupConfirmModal showRegister={showRegister} setShowRegister={setShowRegister} handleSignUp={handleSignUp} />}
+
       <Modal className=' my-custom-modal static-modal mt-5' size="xl" aria-labelledby="contained-modal-title-vcenter" centered show={true} >
         <Container className="signup ">
           <Row>
